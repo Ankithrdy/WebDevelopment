@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Advanced Styling & JS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: rgb(47, 42, 42);
+        }
+
+        h1 {
+            color: #fff9f9;
+        }
+
+        .carousel {
+            margin: 20px auto;
+            width: 400px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .carousel img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .buttons button {
+            margin: 10px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        .api-box {
+            margin: 20px auto;
+            width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 600px) {
+
+            .carousel,
+            .api-box {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Advanced Styling & JavaScript</h1>
+    <div class="carousel">
+        <img id="carouselImage" src="https://picsum.photos/400/250?1" alt="carousel">
+        <div class="buttons">
+            <button onclick="prevImage()">Previous</button>
+            <button onclick="nextImage()">Next</button>
+        </div>
+    </div>
+    <div class="api-box">
+        <h2>Random Joke</h2>
+        <p id="joke">Click button to load a joke</p>
+        <button onclick="getJoke()">Get Joke</button>
+    </div>
+    <script>
+        let images = [
+            "https://picsum.photos/400/250?1",
+            "https://picsum.photos/400/250?2",
+            "https://picsum.photos/400/250?3"
+        ];
+        let index = 0;
+        let img = document.getElementById("carouselImage");
+        function nextImage() {
+            index = (index + 1) % images.length;
+            img.src = images[index];
+        }
+        function prevImage() {
+            index = (index - 1 + images.length) % images.length;
+            img.src = images[index];
+        }
+        function getJoke() {
+            fetch("https://official-joke-api.appspot.com/random_joke")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("joke").innerText =
+                        data.setup + " - " + data.punchline;
+                })
+                .catch(error => {
+                    document.getElementById("joke").innerText = "Error loading joke";
+                });
+        }
+
+    </script>
+
+
+
+</body>
+
+</html>
